@@ -24,18 +24,14 @@ class PersonRepositoryImplTest {
     @Test
     void getByIdBlock() {
         Mono<Person> personMono = personRepository.getById(1);
-
         Person person = personMono.block();
-
         log.info(person.toString());
     }
 
     @Test
     void getByIdSubscribe() {
         Mono<Person> personMono = personRepository.getById(21);
-
         StepVerifier.create(personMono).expectNextCount(1).verifyComplete();
-
         personMono.subscribe(person -> {
             log.info(person.toString());
         });
@@ -44,7 +40,6 @@ class PersonRepositoryImplTest {
     @Test
     void getByIdSubscribeNotFound() {
         Mono<Person> personMono = personRepository.getById(9);
-
         personMono.subscribe(person -> {
             log.info(person.toString());
         });
@@ -53,10 +48,8 @@ class PersonRepositoryImplTest {
     @Test
     void getByIdMapFunction() {
         Mono<Person> personMono = personRepository.getById(1);
-
         personMono.map(person -> {
             log.info(person.toString());
-
             return person.getFirstName();
         }).subscribe(firstName -> {
             log.info("from map: " + firstName);
@@ -83,7 +76,6 @@ class PersonRepositoryImplTest {
     void testFluxToListMono() {
         Flux<Person> personFlux = personRepository.findAll();
         Mono<List<Person>> personListMono = personFlux.collectList();
-
         personListMono.subscribe(list -> {
             list.forEach(person -> {
                 log.info(person.toString());
@@ -95,9 +87,7 @@ class PersonRepositoryImplTest {
     void testFindPersonById() {
         Flux<Person> personFlux = personRepository.findAll();
         final Integer id = 2;
-
         Mono<Person> personMono = personFlux.filter(person -> person.getId() == id).next();
-
         personMono.subscribe(person -> {
             log.info(person.toString());
         });
@@ -106,10 +96,8 @@ class PersonRepositoryImplTest {
     @Test
     void testFindPersonByIdNotFound() {
         Flux<Person> personFlux = personRepository.findAll();
-        final Integer id = 1;
-
+        final Integer id = 10;
         Mono<Person> personMono = personFlux.filter(person -> person.getId() == id).next();
-
         personMono.subscribe(person -> {
             log.info(person.toString());
         });
@@ -120,9 +108,12 @@ class PersonRepositoryImplTest {
         Flux<Person> personFlux = personRepository.findAll();
         final Integer id = 1;
 
-        Mono<Person> personMono = personFlux.filter(person -> person.getId() == id).single();
+        Mono<Person> personMono = personFlux.filter(person -> {
+            System.out.println(person.getId());
+            return person.getId() == id;
+        }).single();
 
-        personMono.doOnError(throwable -> log.info("I went boom"))
+        personMono.doOnError(throwable -> log.info(throwable.getMessage(), throwable))
                 .onErrorReturn(Person.builder().id(id).build())
                 .subscribe(person -> log.info(person.toString()));
     }

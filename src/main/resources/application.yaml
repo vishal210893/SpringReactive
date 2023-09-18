@@ -9,4 +9,7 @@ de:
 
 logging:
   level:
+    reactor:
+      netty:
+        http: TRACE
     root: INFO

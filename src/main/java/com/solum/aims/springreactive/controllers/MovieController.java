@@ -2,7 +2,7 @@ package com.solum.aims.springreactive.controllers;
 
 import com.solum.aims.springreactive.model.Movie;
 import com.solum.aims.springreactive.model.MovieEvent;
-import com.solum.aims.springreactive.service.MovieService;
+import com.solum.aims.springreactive.service.interfaces.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

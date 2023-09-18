@@ -18,7 +18,11 @@ public class PersonRepositoryImpl implements PersonRepository {
     public Flux<Person> findAll() {
         final Person person1 = Person.builder().id(1).firstName("Java").lastName("Springboot Reactive").build();
         final Person person2 = Person.builder().id(2).firstName("Oracle").lastName("Java 17").build();
-        return Flux.just(person1, person2);
+        Person michael = new Person(3, "Michael", "Weston");
+        Person fiona = new Person(5, "Fiona", "Glenanne");
+        Person sam = new Person(6, "Sam", "Axe");
+        Person jesse = new Person(1, "Jesse", "Porter");
+        return Flux.just(person1, person2, michael, fiona, sam, jesse);
     }
 
 }

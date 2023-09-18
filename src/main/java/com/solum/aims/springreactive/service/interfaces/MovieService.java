@@ -1,4 +1,4 @@
-package com.solum.aims.springreactive.service;
+package com.solum.aims.springreactive.service.interfaces;
 
 import com.solum.aims.springreactive.model.Movie;
 import com.solum.aims.springreactive.model.MovieEvent;
